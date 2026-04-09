@@ -13,7 +13,7 @@ spec:
   source:
     path: argo-apps
     repoURL: https://github.com/prahaladh/argo-cd-apps-repo.git
-    targetRevision: HEAD
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
