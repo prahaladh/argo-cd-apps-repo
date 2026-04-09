@@ -4,34 +4,31 @@ metadata:
   name: gist-api-go
   namespace: argocd
   annotations:
-    # 1. Target the image in your Harbor registry
+    # Image Updater still watches the container image
     argocd-image-updater.argoproj.io/image-list: my-app=192.168.56.105/gist-api-go/gist-api-go
-    
-    # 2. Tell the updater to update the 'app.image.tag' Helm parameter
     argocd-image-updater.argoproj.io/my-app.helm.image-spec: app.image.tag
     
-    # 3. Pull Request Logic: Create a PR instead of committing to main
+    # Git Write-back Logic
     argocd-image-updater.argoproj.io/write-back-method: git:pull-request
-    
-    # 4. Target the branch where the PR should be opened (e.g., main)
     argocd-image-updater.argoproj.io/git-branch: main
 spec:
   project: default
   source:
-    # FIX: Point this to your GITHUB repo, not Harbor
-    repoURL: https://github.com/prahaladh/argo-cd-apps-repo.git
-    targetRevision: HEAD
-    path: argo-apps/gist-api-go # Ensure this path leads to your Helm chart/values
+    # 1. Point to the HARBOR OCI Registry for the Chart
+    repoURL: 192.168.56.105
+    # 2. Specify the Chart name in Harbor
+    chart: gist-api-go/gist-api-go
+    # 3. Target a specific chart version
+    targetRevision: 0.1.2
     helm:
       parameters:
         - name: app.image.name
           value: 192.168.56.105/gist-api-go/gist-api-go
         - name: app.image.tag
-          value: "0.1.2" # The Image Updater will now manage this value via PR
+          value: "0.1.2"
   destination:
     server: https://kubernetes.default.svc
     namespace: app-ns
   syncPolicy:
     automated:
       selfHeal: true
-      prune: true
