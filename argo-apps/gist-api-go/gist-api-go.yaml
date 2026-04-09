@@ -1,0 +1,17 @@
+project: default
+source:
+  repoURL: 192.168.56.105
+  targetRevision: 0.1.2
+  helm:
+    parameters:
+      - name: app.image.name
+        value: 192.168.56.105/gist-api-go/gist-api-go
+      - name: app.image.tag
+        value: latest
+  chart: gist-api-go/gist-api-go
+destination:
+  server: https://kubernetes.default.svc
+  namespace: app-ns
+syncPolicy:
+  automated:
+    selfHeal: true
