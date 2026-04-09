@@ -7,10 +7,14 @@ metadata:
     # Image Updater still watches the container image
     argocd-image-updater.argoproj.io/image-list: my-app=192.168.56.105/gist-api-go/gist-api-go
     argocd-image-updater.argoproj.io/my-app.helm.image-spec: app.image.tag
+    argocd-image-updater.argoproj.io/my-app.update-strategy: latest
+    argocd-image-updater.argoproj.io/my-app.allow-tags: |
+      regexp:^[0-9]+\.[0-9]+\.[0-9]+$
     
     # Git Write-back Logic
     argocd-image-updater.argoproj.io/write-back-method: git:pull-request
     argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/write-back-repository: https://github.com/prahaladh/argo-cd-apps-repo.git
 spec:
   project: default
   source:
