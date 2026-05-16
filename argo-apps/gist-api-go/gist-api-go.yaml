@@ -10,6 +10,7 @@ metadata:
     argocd-image-updater.argoproj.io/my-app.update-strategy: latest
     argocd-image-updater.argoproj.io/my-app.allow-tags: |
       regexp:^[0-9]+\.[0-9]+\.[0-9]+$
+    argocd-image-updater.argoproj.io/my-app.force-namespace: argocd
     
     # Git Write-back Logic
     argocd-image-updater.argoproj.io/write-back-method: git:pull-request
